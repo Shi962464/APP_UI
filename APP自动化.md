@@ -1,0 +1,258 @@
+##### APP自动化
+
+1、连接步骤
+
+1.1启动appium，命令行界面
+
+有两种启动方式
+
+```cmd
+appium --base-path /wd/hub
+#  Appium 服务器以 /wd/hub/ 作为基路径启动
+
+appium
+```
+
+1.2.1 使用mumu模拟器连接
+
+```cmd
+adb connect 127.0.0.1:7555 
+# 默认的端口号为7555
+```
+
+1.2.2 使用cmd命令行连接
+
+```cmd
+emulator -avd first_1
+# first_1 是在Android Studio中创建的虚拟机名称
+
+emulator -list-avds
+# 使用上述命令查看已创建的模拟器，只适用于Android Studio
+```
+
+1.2.3 使用Android Studio直接运行模拟器
+
+1.2.4 使用Genymotioin直接运行
+
+使用下述命令确认模拟器是否连接成功
+
+```cmd
+adb devices
+```
+
+返回结果：
+
+```cmd
+192.168.190.102:5555    device
+# IP地址为模拟器名称   后面表示连接成功，若为offline则表示连接失败
+```
+
+连接示例：
+
+假如你使用的mumu模拟器
+
+1 启动appium服务
+
+![image-20250311160504770](APP自动化.assets/image-20250311160504770.png)
+
+2 连接模拟设备
+
+![image-20250311160544215](APP自动化.assets/image-20250311160544215.png)
+
+3 确认连接成功
+
+![image-20250311160615654](APP自动化.assets/image-20250311160615654.png)
+
+2、代码示例：
+
+```python
+import time
+from appium import webdriver
+from appium.webdriver.common.appiumby import AppiumBy
+# 初始化 desired_caps 字典
+desired_caps = {
+    'platformName': 'Android',  # 设备的系统
+    'platformVersion': '12',  # 设备的版本
+    'deviceName': '127.0.0.1:7555',  # 设备ID或模拟器ID
+    'appPackage': 'com.android.settings',  # 设置应用包名
+    'appActivity': 'com.android.settings.Settings',  # 设置应用启动的活动
+    "appium:automationName": "UiAutomator2"  # ✅ 添加 automationName
+}
+# 打印 desired_caps 确认配置正确
+print("Desired capabilities:")
+for key, value in desired_caps.items():
+    print(f"{key}: {value}")
+# 初始化 WebDriver 会话，连接到 Appium 服务器
+try:
+    driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", desired_caps)
+    print("Driver successfully started")
+except Exception as e:
+    print(f"Failed to start driver: {e}")
+element = driver.find_element(AppiumBy.XPATH, "//android.widget.TextView[@text='应用']")
+element.click()
+# 模拟点击设置界面的 应用 
+time.sleep(3)
+driver.quit()
+```
+
+1.3、获取信息
+
+获取platformVersion
+
+```cmd
+adb shell getprop ro.build.version.release
+
+# 会返回当前系统的版本
+12
+```
+
+获取deviceName
+
+```cmd
+adb devices
+```
+
+1.3.1 获取界面名和包名
+
+```cmd
+adb shell dumpsys window | findstr mCurrentFocus
+
+# 返回的结果如下：
+mCurrentFocus=Window{784f82d u0 com.android.settings/com.android.settings.Settings}
+
+#其中 包名（packageName）为：com.android.settings
+#    界面名（activityName）为：com.android.settings.Settings
+```
+
+1.4 文件传输
+
+adb push 源地址  目的地址
+
+adb pull 源地址  目的地址
+
+ 
+
+3、基础操作
+
+3.1 应用跳转
+
+```python
+driver.activate_app("tv.danmaku.bili")
+# tv.danmaku.bili为需要跳转APP的packageName
+```
+
+3.2 获取当前APP的报名和界面名
+
+```python
+driver.current_package
+# 获取包名
+
+driver.current_activity
+# 获取界面名
+```
+
+3.3 关闭驱动和APP
+
+```python
+driver.terminate_app("com.android.settings")
+# com.android.settings 为需要关闭APP的packageName
+```
+
+3.4  安装APP
+
+```python
+driver.install_app(f'D:/APP_Test/bilibili.apk')
+# D:/APP_Test/bilibili.apk 为安装APP完整路径
+```
+
+3.5 卸载APP
+
+```python
+driver.remove_app('tv.danmaku.bili')
+# tv.danmaku.bili为packageName
+```
+
+3.6 判断APP是否安装
+
+```python
+driver.is_app_installed("tv.danmaku.bili")
+# tv.danmaku.bili为packageName
+```
+
+3.7 置于后台
+
+```python
+driver.background_app(5)
+# 5 为需要停留的秒数
+```
+
+3.8 清楚text文本
+
+```python
+driver.find_element(AppiumBy.CLASS_NAME,"android.widget.EditText").clear()
+# android.widget.EditText 元素为text文本框
+```
+
+4、元素定位
+
+双击Android SDK 安装路径下的==**\tools\bin\uiautomatorviewer.bat**==文件
+
+**需要使用jdk8，使用8以上无法使用该文件**
+
+![image-20250312144330039](APP自动化.assets/image-20250312144330039.png)
+
+点击1则会出现与模拟器一样的界面
+
+4.1 单个元素定位
+
+```python
+driver.find_element(AppiumBy.ID,"resource-id属性值")
+driver.find_element(AppiumBy.CLASS_NAME,"class属性值")
+driver.find_element(AppiumBy.XPATH,"xpath表达式")
+driver.find_element(AppiumBy.ACCESSIBILITY_ID,"content-desc属性值")
+```
+
+4.1.1 通过 **ID** 定位
+
+```python
+driver.find_element(AppiumBy.ID,"resource-id属性值")
+
+driver.find_element(AppiumBy.ID,"android:id/title").click()
+```
+
+![image-20250312173828214](APP自动化.assets/image-20250312173828214.png)
+
+4.1.2 通过 **CLASS_NAME** 定位
+
+```python
+driver.find_element(AppiumBy.CLASS_NAME,"class属性值")
+
+driver.find_element(AppiumBy.CLASS_NAME,"android.widget.TextView").click()
+```
+
+![image-20250312174244501](APP自动化.assets/image-20250312174244501.png)
+
+4.1.3 通过 **XPATTH** 定位
+
+```python
+driver.find_element(AppiumBy.XPATH,"xpath表达式")
+
+driver.find_element(AppiumBy.XPATH,'//*[@class="android.widget.ImageButton"]').click()
+or
+driver.find_element(AppiumBy.XPATH,'//*[@content-desc="向上导航"]').click()
+```
+
+![image-20250312174914340](APP自动化.assets/image-20250312174914340.png)
+
+4.1.4 通过 **ACCESSIBILITY_ID** 定位
+
+```python
+driver.find_element(AppiumBy.ACCESSIBILITY_ID,"content-desc属性值")
+
+driver.find_element(AppiumBy.ACCESSIBILITY_ID,'向上导航').click()
+```
+
+![image-20250312175719402](APP自动化.assets/image-20250312175719402.png)
+
+4.2 获取一组元素
+
