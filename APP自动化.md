@@ -1,8 +1,8 @@
-##### APP自动化
+# APP自动化
 
-1、连接步骤
+## 1、连接步骤
 
-1.1启动appium，命令行界面
+#### 1.1启动appium，命令行界面
 
 有两种启动方式
 
@@ -13,14 +13,14 @@ appium --base-path /wd/hub
 appium
 ```
 
-1.2.1 使用mumu模拟器连接
+##### 1.2.1 使用mumu模拟器连接
 
 ```cmd
 adb connect 127.0.0.1:7555 
 # 默认的端口号为7555
 ```
 
-1.2.2 使用cmd命令行连接
+##### 1.2.2 使用cmd命令行连接
 
 ```cmd
 emulator -avd first_1
@@ -30,9 +30,9 @@ emulator -list-avds
 # 使用上述命令查看已创建的模拟器，只适用于Android Studio
 ```
 
-1.2.3 使用Android Studio直接运行模拟器
+##### 1.2.3 使用Android Studio直接运行模拟器
 
-1.2.4 使用Genymotioin直接运行
+##### 1.2.4 使用Genymotioin直接运行
 
 使用下述命令确认模拟器是否连接成功
 
@@ -47,7 +47,7 @@ adb devices
 # IP地址为模拟器名称   后面表示连接成功，若为offline则表示连接失败
 ```
 
-连接示例：
+##### 1.2.5 连接示例：
 
 假如你使用的mumu模拟器
 
@@ -63,7 +63,7 @@ adb devices
 
 ![image-20250311160615654](APP自动化.assets/image-20250311160615654.png)
 
-2、代码示例：
+## 2、代码示例：
 
 ```python
 import time
@@ -95,7 +95,7 @@ time.sleep(3)
 driver.quit()
 ```
 
-1.3、获取信息
+1.3 获取信息
 
 获取platformVersion
 
@@ -186,12 +186,28 @@ driver.background_app(5)
 # 5 为需要停留的秒数
 ```
 
-3.8 清楚text文本
+3.8 清除text文本
 
 ```python
 driver.find_element(AppiumBy.CLASS_NAME,"android.widget.EditText").clear()
 # android.widget.EditText 元素为text文本框
 ```
+
+3.9 使用Xpath时，包含元素定位
+
+```python
+driver.find_element(AppiumBy.XPATH, "//*[contains(@text, '网')]")
+# 查看包含 网 的元素，如果不使用 find_elements 则默认第一个
+```
+
+3.10 点击、输入
+
+```python
+driver.find_element(AppiumBy.XPATH, "//*[contains(@text, '网')]").click()
+driver.find_element(AppiumBy.XPATH, "//*[contains(@text, '网')]").send_keys("想要输入的内容")
+```
+
+
 
 4、元素定位
 
@@ -255,4 +271,74 @@ driver.find_element(AppiumBy.ACCESSIBILITY_ID,'向上导航').click()
 ![image-20250312175719402](APP自动化.assets/image-20250312175719402.png)
 
 4.2 获取一组元素
+
+```python
+res=driver.find_elements(AppiumBy.ID,'android:id/title')
+for re in res:
+    print(re.text)
+print(end="\n")
+driver.find_elements(AppiumBy.ID,'android:id/title')[0].click()
+driver.quit()
+
+# 输出如下：
+网络和互联网
+应用
+通知
+存储
+声音
+显示
+壁纸
+无障碍
+```
+
+使用定位一组元素时，返回的数据是列表，所以需要使用 text 方法
+
+所以在实际中，如果存在多个相同的ID属性值，可以将所有相同的ID全部打印出来，再利用下标对想要点击的数据写进去
+
+4.3 获取元素文本、位置、大小
+
+分别使用：
+
+**text**     **location**     **size**
+
+```python
+res=driver.find_elements(AppiumBy.ID,'android:id/title')[0]
+print(f"这个元素的文本为：{res.text},位置为：{res.location},大小为：{res.size}")
+```
+
+4.4 获取元素属性值
+
+使用 **get_attribute**
+
+常见的属性名与属性值的对应关系有：
+
+![image-20250315164341185](C:\Users\Admin\AppData\Roaming\Typora\typora-user-images\image-20250315164341185.png)
+
+上图没有的则与UI中对应
+
+```python
+res=driver.find_elements(AppiumBy.ID,'android:id/title')
+for i in res:
+    text = i.get_attribute('text')
+    enable=i.get_attribute('enabled')
+    name=i.get_attribute('name')
+    class_name=i.get_attribute('className')
+    res_id=i.get_attribute('resourceId')
+    print(f"text为：{text} enable为：{enable} name为：{name} class_name为：{class_name} id为：{res_id}")
+```
+
+4.5 滑动和拖拽
+
+4.5.1 Swipe滑动：从一个坐标位置滑动到另一个坐标位置，只能是两点之间的滑动
+
+```python
+driver.swipe(start_X,start_Y,end_X,end_Y,duration=None)
+"""
+start_X:起点X轴坐标
+start_Y：起点Y轴坐标
+end_X：终点X轴坐标
+end_Y：终点Y轴坐标
+duration=None：滑动这个操作的持续时间，单位：ms
+"""
+```
 
