@@ -11,14 +11,11 @@ desired_caps = {
     "appium:enableAppiumBehavior": True
 }
 driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", desired_caps)
-
 res=driver.find_elements(AppiumBy.ID,'android:id/title')
-for re in res:
-    print(re.text)
-print(end="\n")
-xpaths=driver.find_elements(AppiumBy.XPATH, "//*[contains(@text, '网')]")[1]
-
-print(xpaths.text)
-
-# for xpath in xpaths:
-#     print(xpath.text)
+for i in res:
+    text = i.get_attribute('text')
+    enable=i.get_attribute('enabled')
+    name=i.get_attribute('name')
+    class_name=i.get_attribute('className')
+    res_id=i.get_attribute('resourceId')
+    print(f"text为：{text} enable为：{enable} name为：{name} class_name为：{class_name} id为：{res_id}")

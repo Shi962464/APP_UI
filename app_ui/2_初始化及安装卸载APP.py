@@ -31,7 +31,7 @@ driver.quit()
 
 
 
-driver.find_element(AppiumBy.ID("resource-id属性值"))
-driver.find_element(AppiumBy.CLASS_NAME("class属性值"))
-driver.find_element(AppiumBy.XPATH("xpath表达式"))
-driver.find_element(AppiumBy.ACCESSIBILITY_ID("content-desc属性值"))
+# driver.find_element(AppiumBy.ID("resource-id属性值"))
+# driver.find_element(AppiumBy.CLASS_NAME("class属性值"))
+# driver.find_element(AppiumBy.XPATH("xpath表达式"))
+# driver.find_element(AppiumBy.ACCESSIBILITY_ID("content-desc属性值"))
