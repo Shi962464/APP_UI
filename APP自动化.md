@@ -1,5 +1,7 @@
 # APP自动化
 
+以下操作只适用于appium 2.0以上版本
+
 ## 1、连接步骤
 
 #### 1.1启动appium，命令行界面
@@ -207,7 +209,20 @@ driver.find_element(AppiumBy.XPATH, "//*[contains(@text, '网')]").click()
 driver.find_element(AppiumBy.XPATH, "//*[contains(@text, '网')]").send_keys("想要输入的内容")
 ```
 
+3.11 获取屏幕分辨率
 
+```python
+str=driver.get_window_size()
+print(str)
+# 返回的是字典   {'width': 1080, 'height': 1920}
+```
+
+3.12  等待设置应用加载完成
+
+```Python
+driver.implicitly_wait(10)  
+# 隐式等待10秒
+```
 
 4、元素定位
 
@@ -329,7 +344,7 @@ for i in res:
 
 4.5 滑动和拖拽
 
-4.5.1 Swipe滑动：从一个坐标位置滑动到另一个坐标位置，只能是两点之间的滑动
+4.5.1 **Swipe**滑动：从一个坐标位置滑动到另一个坐标位置，只能是两点之间的滑动
 
 ```python
 driver.swipe(start_X,start_Y,end_X,end_Y,duration=None)
@@ -340,5 +355,81 @@ end_X：终点X轴坐标
 end_Y：终点Y轴坐标
 duration=None：滑动这个操作的持续时间，单位：ms
 """
+
+driver.swipe(666,1523,666,804,duration=0)
+# 这个案例中，模拟的是向上滑动
+```
+
+如果换了手机，导致分辨率率不一样，可以使用下面方法：
+
+```python
+size=driver.get_window_size()
+# 获取整个屏幕的分辨率大小
+time.sleep(3)
+start_Y=size.get("height")*0.75
+# 获取起始点的坐标
+end_Y=size.get("height")*0.25
+# 结束点的坐标
+driver.swipe(200,start_Y,200,end_Y,duration=0)
+```
+
+4.5.2 **scroll** 滑动：从一个元素滑动到另一个元素，知道页面自动停止
+
+```python
+driver.scroll(origin_el=,destination_el=)
+"""
+origin_el：滑动开始的元素
+destination_el：滑动结束的元素
+"""
+
+driver.scroll(origin_el=src,destination_el=dst)
+```
+
+4.5.3 **drag_and_drop** 拖拽：从一个元素滑动到另一个元素，第二个元素替代第一个元素原本屏幕上的位置
+
+```python
+driver.drag_and_drop(origin_el=,destination_el=)
+"""
+origin_el：滑动开始的元素
+destination_el：滑动结束的元素
+"""
+
+driver.drag_and_drop(origin_el=src,destination_el=dst)
+```
+
+以上两种方法都可以使用下面的方法（appium 2.0 以上）：
+
+```python
+driver.execute_script("mobile:dragGesture", {
+    "elementId": src.id,
+    # 拖拽的起点元素
+    "endX": dst.location["x"],
+    # 目标位置的X坐标
+    "endY": dst.location["y"]
+    # 目标位置的Y坐标
+```
+
+4.6 TouchAction
+
+ 4.6.1 轻敲：模拟手指对某个元素或坐标按下并快速抬起
+
+```python
+ele=driver.find_element(AppiumBy.XPATH,"//*[@text='已连接']")
+ActionChains(driver).move_to_element(ele).click().perform()
+# 创建一个ActionChains对象，使用滑动到指定的ele元素处，并执行点击操作
+
+```
+
+4.6.2 长按：模拟手指对元素或坐标的长按操作
+
+```python
+ele=driver.find_element(AppiumBy.XPATH,"//*[@text='已连接']")
+# 获取元素坐标位置
+x=ele.location['x']
+# 获取元素X轴坐标
+y=ele.location['y']
+# 获取元素Y轴坐标
+driver.tap([(x,y)], 5000)
+# 在指定的坐标上执行轻敲操作，并持续5秒
 ```
 

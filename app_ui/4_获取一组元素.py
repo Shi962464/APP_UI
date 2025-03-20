@@ -17,7 +17,8 @@ for re in res:
     print(re.text)
 print(end="\n")
 # driver.find_elements(AppiumBy.ID,'android:id/title')[0].click()
-xpaths=driver.find_elementimport time
+xpaths=driver.find_element
+import time
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
 desired_caps = {
