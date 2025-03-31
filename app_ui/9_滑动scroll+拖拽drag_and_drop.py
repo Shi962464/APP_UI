@@ -1,19 +1,29 @@
 import time
 from appium import webdriver
-from appium.webdriver.common.appiumby import AppiumBy
+# from appium.webdriver.common.appiumby import AppiumBy
 desired_caps = {
-    'platformName': 'Android',  # 设备的系统
-    'platformVersion': '9',  # 设备的版本
-    'deviceName': 'emulator-5556',  # 设备ID或模拟器ID
-    'appPackage': 'com.android.settings',  # 设置应用包名
-    'appActivity': 'com.android.settings.Settings',  # 设置应用启动的活动
-    "appium:automationName": "UiAutomator2" , # ✅ 添加 automationName
+    'platformName': 'Android',
+    'platformVersion': '12',
+    'deviceName': '127.0.0.1:7555',
+    'appPackage': 'com.tpshop.malls',
+    'appActivity': 'com.tpshop.malls.SplashActivity',
+    'automationName': 'UiAutomator2',
+    'autoGrantPermissions': True,
+    'noReset': True,
+    # 添加以下关键参数
+    'intentAction': 'android.intent.action.VIEW',  # 改用VIEW动作
+    'dontStopAppOnReset': True,  # 不要停止应用
+    'waitForIdleTimeout': 3000,  # 等待时间
+    'androidInstallTimeout': 90000,
+    # 如果应用有deep link，可以尝试指定URL
+    # 'appWaitActivity': '*',  # 也可以尝试通配符
 }
 
-driver = webdriver.Remote("http://127.0.0.1:4724/wd/hub", desired_caps)
+driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", desired_caps)
 
-driver.install_app(r"D:\APP_Test\tp.apk")
-driver.install_app(r"D:\APP_Test\bilibili.apk")
+driver.install_app(r"E:\APPTest\tp.apk")
+driver.install_app(r"E:\APPTest\bili.apk")
+# driver.remove_app('com.bstar.intl')
 
 # src=driver.find_element(AppiumBy.XPATH,"//*[@text='应用和通知']")
 # dst=driver.find_element(AppiumBy.XPATH,"//*[@text='网络和互联网']")
