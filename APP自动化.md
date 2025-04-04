@@ -556,6 +556,7 @@ driver.press_keycode(keycode=)
 
 ```python
 driver.open_notifications()
+<<<<<<< HEAD
 # 退出可以通过上面的发送键来模拟返回键操作
 ```
 
@@ -607,3 +608,7 @@ driver.switch_to.context(上下文对象)
 
 
 
+=======
+```
+
+>>>>>>> 99ec674d0e6a1c026f52dd82cb9817c488409721

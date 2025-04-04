@@ -3,10 +3,17 @@ from appium import webdriver
 # from appium.webdriver.common.appiumby import AppiumBy
 desired_caps = {
     'platformName': 'Android',
+<<<<<<< HEAD
     'platformVersion': '9',
     'deviceName': 'emulator-5554',
     'appPackage': 'com.tpshop.malls',
     'appActivity': 'com.tpshop.malls.SPMainActivity',
+=======
+    'platformVersion': '12',
+    'deviceName': '127.0.0.1:7555',
+    'appPackage': 'com.tpshop.malls',
+    'appActivity': 'com.tpshop.malls.SplashActivity',
+>>>>>>> 99ec674d0e6a1c026f52dd82cb9817c488409721
     'automationName': 'UiAutomator2',
     'autoGrantPermissions': True,
     'noReset': True,
@@ -21,8 +28,13 @@ desired_caps = {
 
 driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", desired_caps)
 
+<<<<<<< HEAD
 # driver.install_app(r"E:\APPTest\tp.apk")
 # driver.install_app(r"E:\APPTest\bili.apk")
+=======
+driver.install_app(r"E:\APPTest\tp.apk")
+driver.install_app(r"E:\APPTest\bili.apk")
+>>>>>>> 99ec674d0e6a1c026f52dd82cb9817c488409721
 # driver.remove_app('com.bstar.intl')
 
 # src=driver.find_element(AppiumBy.XPATH,"//*[@text='应用和通知']")
