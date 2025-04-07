@@ -143,7 +143,7 @@ driver.activate_app("tv.danmaku.bili")
 # tv.danmaku.bili为需要跳转APP的packageName
 ```
 
-### 3.2 获取当前APP的报名和界面名
+### 3.2 获取当前APP的包名和界面名
 
 ```python
 driver.current_package
@@ -598,17 +598,68 @@ driver.switch_to.context(上下文对象)
 
 **chromedriver 115之前版本下载地址：**https://chromedriver.storage.googleapis.com/index.html 
 
+可以使用 **print(driver.context) ** 来打印可以切换的chromedriver 
 
-
-
-
-
-
-
-
-
-
-=======
+```python
+print(driver.context)
 ```
 
->>>>>>> 99ec674d0e6a1c026f52dd82cb9817c488409721
+切换之后就可以进行web页面里的APP操作了
+
+
+
+# 项目实战
+
+## 1、自动化测试流程
+
+### 1.1 需求分析
+
+任务：熟悉产品的功能，了解项目架构的研发技术
+
+目标：分析是否适用UI自动化测试（周期 回归 稳定）
+
+### 1.2 挑选功能
+
+1. 核心功能
+2. 重要的测试用例
+3. 界面变动不频繁的功能点
+
+### 1.3 设计测试用例
+
+1.对要做的事情进行详细的测试步骤书写
+
+2.从现有的用例中挑选
+
+![image-20250405164424319](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20250405164424319.png)
+
+### 1.4 环境搭建
+
+![image-20250405164101553](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20250405164101553.png)
+
+### 1.5 项目搭建
+
+符合PO模式的Python project
+
+框架改造目标：
+
+1. 能测试Web自动化
+2. 能测试APP自动化
+
+### 1.6 书写代码
+
+### 1.7 执行测试用例
+
+1. 本地执行
+2. Jenkins持续集成：
+   1. 持续集成的特征：
+      1. 代码检查能力。组织不规范、可能出现的Bug的代码被提交到代码库中
+      2. 自动执行自动化的测试用例（UI、APP、单元测试）
+      3. 打包生成可发布的文件并提供一键部署的能力
+
+### 1.8 输出测试报告
+
+1. pytest-html工具
+2. allure
+
+## 2、商城项目简介
+

@@ -1,0 +1,9 @@
+platformName: Android
+platformVersion: "14"
+deviceName: 5baa00a4
+appPackage: com.tpshop.malls
+appActivity: .SplashActivity
+automationName: UiAutomator2
+noReset: true
+disableWindowAnimation: false
+newCommandTimeout: 3600
