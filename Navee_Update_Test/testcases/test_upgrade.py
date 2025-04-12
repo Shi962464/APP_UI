@@ -12,31 +12,31 @@ def test_upgrade_loop():
     clear_result_file()
 
     try:
-        up_page.select_device()
+        up_page.goif_select_device()
         up_page.click_toolbar()
         up_page.click_upgrade()
 
         up_num = 1
-
+        # num = 1
         while True:
+            random_click()
             text = up_page.get_upgrade_button_text()
             if text == "重新升级":
                 append_result(False, up_num)
                 print("检测到升级失败，重新点击")
-                up_page.click_update_button()
+                up_page.again_click()
                 up_num += 1
             elif text == "确定":
                 append_result(True, up_num)
                 print("升级成功！")
                 up_page.confirm_success()
                 up_page.click_toolbar()
-                up_page.click_update_button()
+                up_page.click_upgrade()
                 up_num += 1
-            random_click()
-            time.sleep(3)
+            time.sleep(4)
+            # num += 1
 
     except Exception as e:
         send_error_email("Update_Error!!!")
         print("异常:", e)
-    finally:
-        driver.quit()
+# send_error_email("Sucessfully Upgrade")
