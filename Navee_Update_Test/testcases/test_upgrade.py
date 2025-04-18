@@ -17,23 +17,32 @@ def test_upgrade_loop():
         up_page.click_upgrade()
 
         up_num = 1
-        # num = 1
+        scee=0
+        res=0
+        number=0
         while True:
+            print("升级成功：{}升级失败：{}".format(scee, res))
             random_click()
             text = up_page.get_upgrade_button_text()
+
             if text == "重新升级":
-                append_result(False, up_num)
+                append_result(success=False, count=up_num)
                 print("检测到升级失败，重新点击")
                 up_page.again_click()
                 up_num += 1
+                res+=1
+
             elif text == "确定":
-                append_result(True, up_num)
+                append_result(success=True, count=up_num)
                 print("升级成功！")
                 up_page.confirm_success()
                 up_page.click_toolbar()
                 up_page.click_upgrade()
                 up_num += 1
+                scee+=1
+
             time.sleep(4)
+            number+=1
             # num += 1
 
     except Exception as e:

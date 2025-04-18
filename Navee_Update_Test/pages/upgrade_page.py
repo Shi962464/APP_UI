@@ -27,6 +27,7 @@ class UpgradePage:
                 break
         print("获取成功")
 
+    # def goif_select_device(self, name='10A5628B83AE'):
     def goif_select_device(self, name='10A5628B83CD'):
         """
         GOIF
@@ -51,19 +52,19 @@ class UpgradePage:
         time.sleep(5)
         self.wait.until(EC.element_to_be_clickable((AppiumBy.ID, "com.navee.ucaret:id/infoButton"))).click()  # 点击了解车辆
         print("点击了解车辆")
-        time.sleep(5)
+        time.sleep(7)
         self.driver.find_element(AppiumBy.XPATH, "//*[@text='检查固件更新']").click()  # 点击检查固件和更新
         print("点击检查更新")
-        time.sleep(5)
+        time.sleep(2)
 
     def click_upgrade(self):
-        time.sleep(3)
+        time.sleep(2)
         self.driver.find_element(AppiumBy.XPATH, "//*[@text='立马升级']").click()
-        time.sleep(5)
+        time.sleep(2)
         print("点击立马升级")
     def again_click(self):
         self.driver.find_element(AppiumBy.XPATH, "//*[@text='重新升级']").click()
-        time.sleep(5)
+        time.sleep(2)
         print("点击重新升级")
     def get_upgrade_button_text(self):
         """
@@ -84,10 +85,10 @@ class UpgradePage:
         升级完之后点击确认，并在了解车辆返回上一级
         :return:
         """
-
+        time.sleep(2)
         self.wait.until(EC.element_to_be_clickable((AppiumBy.XPATH, "//*[@text='确定']"))).click()
         print("点击确定")
-        time.sleep(5)
+        time.sleep(3)
         self.wait.until(EC.element_to_be_clickable((AppiumBy.CLASS_NAME, "android.widget.ImageButton"))).click()
         print("点击返回")
-        time.sleep(5)
+        time.sleep(3)
