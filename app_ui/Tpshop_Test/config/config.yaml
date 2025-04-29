@@ -5,5 +5,5 @@ appPackage: com.tpshop.malls
 appActivity: .SplashActivity
 automationName: UiAutomator2
 noReset: true
-disableWindowAnimation: false
-newCommandTimeout: 3600
+#disableWindowAnimation: false
+#newCommandTimeout: 3600

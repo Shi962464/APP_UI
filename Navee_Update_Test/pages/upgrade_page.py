@@ -49,10 +49,10 @@ class UpgradePage:
         """
         self.driver.find_element(AppiumBy.ID, 'com.navee.ucaret:id/bluetoothStatusButton').click()  # 点击APP上蓝牙图标
         print("点击蓝牙图标")
-        time.sleep(5)
+        time.sleep(3)
         self.wait.until(EC.element_to_be_clickable((AppiumBy.ID, "com.navee.ucaret:id/infoButton"))).click()  # 点击了解车辆
         print("点击了解车辆")
-        time.sleep(7)
+        time.sleep(10)
         self.driver.find_element(AppiumBy.XPATH, "//*[@text='检查固件更新']").click()  # 点击检查固件和更新
         print("点击检查更新")
         time.sleep(2)

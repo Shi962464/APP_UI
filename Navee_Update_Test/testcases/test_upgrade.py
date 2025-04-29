@@ -22,7 +22,7 @@ def test_upgrade_loop():
         number=0
         while True:
             print("升级成功：{}升级失败：{}".format(scee, res))
-            random_click()
+            # random_click()
             text = up_page.get_upgrade_button_text()
 
             if text == "重新升级":
@@ -46,6 +46,6 @@ def test_upgrade_loop():
             # num += 1
 
     except Exception as e:
-        send_error_email("Update_Error!!!")
+        send_error_email()
         print("异常:", e)
 # send_error_email("Sucessfully Upgrade")
